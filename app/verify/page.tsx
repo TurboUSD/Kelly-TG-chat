@@ -232,6 +232,27 @@ function VerifyContent() {
           </div>
         )}
       </div>
+
+      {/* Transparency footer — outside the card */}
+      <div style={styles.footer}>
+        <a
+          href="https://github.com/TurboUSD/Kelly-TG-chat"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={styles.footerLink}
+        >
+          📂 Open source on GitHub
+        </a>
+        <span style={{ color: "#333" }}>·</span>
+        <a
+          href="https://basescan.org/token/0x50D2280441372486BeecdD328c1854743EBaCb07"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={styles.footerLink}
+        >
+          🔍 Token on Basescan
+        </a>
+      </div>
     </div>
   );
 }
@@ -253,6 +274,18 @@ export default function VerifyPage() {
 }
 
 const styles: Record<string, React.CSSProperties> = {
+  footer: {
+    display: "flex",
+    gap: "0.75rem",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "1.25rem",
+    fontSize: "0.75rem",
+  },
+  footerLink: {
+    color: "#555",
+    textDecoration: "none",
+  },
   container: {
     display: "flex",
     flexDirection: "column",

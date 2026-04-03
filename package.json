@@ -1,0 +1,30 @@
+{
+  "name": "kelly-token-gate",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Token-gated Telegram group for $KELLY (KellyClaude) holders on Base",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "setup-webhook": "node scripts/setup-webhook.mjs"
+  },
+  "dependencies": {
+    "@rainbow-me/rainbowkit": "^2.2.10",
+    "@tanstack/react-query": "^5.90.21",
+    "@vercel/kv": "^3.0.0",
+    "ethers": "^6.11.1",
+    "next": "^14.2.21",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "siwe": "^2.3.2",
+    "viem": "^2.23.12",
+    "wagmi": "^2.14.16"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "typescript": "^5.3.3"
+  }
+}

@@ -68,10 +68,19 @@ function VerifyContent() {
       }
     } catch (err: any) {
       setStatus("error");
-      if (err.message?.includes("User rejected")) {
+      // wagmi v2 / viem errors use shortMessage, regular errors use message
+      const errMsg: string =
+        err?.shortMessage || err?.message || err?.name || String(err) || "Unknown error";
+      const lower = errMsg.toLowerCase();
+      if (
+        lower.includes("reject") ||
+        lower.includes("cancel") ||
+        lower.includes("denied") ||
+        lower.includes("user refused")
+      ) {
         setMessage("Signature cancelled. Please try again.");
       } else {
-        setMessage(err.message || "Unexpected error");
+        setMessage(errMsg);
       }
     }
   }, [address, tg, chat, signMessageAsync]);

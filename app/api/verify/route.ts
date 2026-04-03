@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
     if (!sufficient) {
       return NextResponse.json(
         {
-          error: `Saldo insuficiente. Tienes ${Number(formatted).toLocaleString()} $KELLY, necesitas mínimo ${MIN_BALANCE_DISPLAY}.`,
+          error: `Insufficient balance. You have ${Number(formatted).toLocaleString()} $KELLY, you need at least ${MIN_BALANCE_DISPLAY}.`,
           balance: formatted,
           required: MIN_BALANCE_DISPLAY,
         },
@@ -81,8 +81,8 @@ export async function POST(req: NextRequest) {
       balance: formatted,
       inviteSent,
       message: inviteSent
-        ? "Verificado! Revisa tu chat con el bot para el enlace de invitación."
-        : "Verificado! Pero no se pudo enviar el enlace. Escribe /start al bot para recibirlo.",
+        ? "Verified! Check your chat with the bot for the invite link."
+        : "Verified! But couldn't send the link. Send /start to the bot to get it.",
     });
   } catch (error: any) {
     console.error("Verify error:", error);

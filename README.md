@@ -21,8 +21,9 @@ This project is **fully open source**. Anyone can read the code and verify that:
 - The balance check calls the contract directly: [`0x50D2280441372486BeecdD328c1854743EBaCb07`](https://basescan.org/token/0x50D2280441372486BeecdD328c1854743EBaCb07) on Base.
 
 **How to verify the deployment matches this repo:**
-1. Check the deployment source on Vercel: [vercel.com/turbousd/kelly-tg-chat](https://vercel.com/turbousd/kelly-tg-chat) — it shows this GitHub repo as the connected source.
-2. Every deployment on Vercel shows the exact commit hash — you can match it against the [commit history](https://github.com/TurboUSD/Kelly-TG-chat/commits/main) here on GitHub.
+1. The production URL `kelly-tg-chat.vercel.app` is connected to this GitHub repo. Vercel only deploys from the linked git source — it cannot serve code that isn't in the repo.
+2. Each deployment compiles from a specific commit. You can verify the [commit history](https://github.com/TurboUSD/Kelly-TG-chat/commits/main) on GitHub and confirm the live code matches what's published here.
+3. The critical logic — the balance check — is a standard read-only ERC-20 call (`balanceOf`) on the Base blockchain. You can verify your own balance directly on [Basescan](https://basescan.org/token/0x50D2280441372486BeecdD328c1854743EBaCb07#balances) without using this site at all.
 
 ---
 

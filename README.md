@@ -1,4 +1,4 @@
-# 🅺 $KELLY Token Gate
+# 🅺 $KELLY Token Gate Chat
 
 Token-gated Telegram group for **$KELLY (KellyClaude)** holders on Base.
 
@@ -6,6 +6,8 @@ Users must hold **50,000,000+ $KELLY** to join and stay in the group. The system
 
 **Live:** [kelly-tg-chat.vercel.app](https://kelly-tg-chat.vercel.app)
 **Repo:** [github.com/TurboUSD/Kelly-TG-chat](https://github.com/TurboUSD/Kelly-TG-chat)
+
+> Based on [clawdbotatg/token-gated-chat](https://github.com/clawdbotatg/token-gated-chat) — the original token gate built for $CLAWD. Adapted for $KELLY on Base with a fully serverless architecture (Vercel webhooks instead of a long-running bot process).
 
 ---
 
@@ -19,8 +21,8 @@ This project is **fully open source**. Anyone can read the code and verify that:
 - The balance check calls the contract directly: [`0x50D2280441372486BeecdD328c1854743EBaCb07`](https://basescan.org/token/0x50D2280441372486BeecdD328c1854743EBaCb07) on Base.
 
 **How to verify the deployment matches this repo:**
-1. Go to [vercel.com](https://vercel.com) and check the deployment source for `kelly-tg-chat` — it points to this GitHub repo.
-2. Every deployment on Vercel shows the exact commit hash — you can match it against the commit history here on GitHub.
+1. Check the deployment source on Vercel: [vercel.com/turbousd/kelly-tg-chat](https://vercel.com/turbousd/kelly-tg-chat) — it shows this GitHub repo as the connected source.
+2. Every deployment on Vercel shows the exact commit hash — you can match it against the [commit history](https://github.com/TurboUSD/Kelly-TG-chat/commits/main) here on GitHub.
 
 ---
 

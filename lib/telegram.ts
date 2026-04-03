@@ -75,13 +75,13 @@ export async function sendInviteToUser(telegramId: string): Promise<boolean> {
 
   const res = await sendMessage(
     telegramId,
-    `✅ <b>Verificación exitosa!</b>\n\n` +
-      `Tu wallet tiene suficiente $KELLY.\n\n` +
-      `Usa este enlace para unirte al grupo (un solo uso):`,
+    `✅ <b>Verification successful!</b>\n\n` +
+      `Your wallet holds enough $KELLY.\n\n` +
+      `Use this link to join the group (one-time use):`,
     {
       replyMarkup: {
         inline_keyboard: [
-          [{ text: "🚀 Unirse al grupo", url: inviteLink }],
+          [{ text: "🚀 Join the group", url: inviteLink }],
         ],
       },
     }
@@ -96,9 +96,9 @@ export async function sendInviteToUser(telegramId: string): Promise<boolean> {
 export async function notifyKicked(telegramId: string): Promise<void> {
   await sendMessage(
     telegramId,
-    `⚠️ <b>Has sido removido del grupo</b>\n\n` +
-      `Tu saldo de $KELLY ha bajado del mínimo requerido (50M tokens).\n\n` +
-      `Compra más $KELLY y vuelve a verificar cuando quieras con /start`
+    `⚠️ <b>You've been removed from the group</b>\n\n` +
+      `Your $KELLY balance dropped below the minimum (50M tokens).\n\n` +
+      `Get more $KELLY and re-verify anytime with /start`
   );
 }
 

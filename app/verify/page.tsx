@@ -23,39 +23,81 @@ function VerifyContent() {
   const handleVerify = useCallback(async () => {
     if (!address || !tg || !chat) return;
 
+    const toStr = (err: any): string => {
+      if (!err) return "Unknown error";
+      if (typeof err === "string") return err;
+      if (typeof err.shortMessage === "string" && err.shortMessage) return err.shortMessage;
+      if (typeof err.message === "string" && err.message) return err.message;
+      if (typeof err.name === "string" && err.name) return err.name;
+      try { return JSON.stringify(err); } catch { return String(err); }
+    };
+
+    const isRejection = (s: string) =>
+      ["reject", "cancel", "denied", "refused", "declined"].some((w) =>
+        s.toLowerCase().includes(w)
+      );
+
+    // Step 1: Get nonce
+    let nonce: string;
     try {
       setStatus("signing");
-
-      // 1. Get nonce from server
       const nonceRes = await fetch(`/api/nonce?tg=${tg}&chat=${chat}`);
-      const { nonce } = await nonceRes.json();
+      const data = await nonceRes.json();
+      nonce = data.nonce;
+      if (!nonce) throw new Error("Server did not return a nonce");
+    } catch (err: any) {
+      setStatus("error");
+      setMessage("Failed to get nonce: " + toStr(err));
+      return;
+    }
 
-      // 2. Build SIWE message
+    // Step 2: Build SIWE message
+    let messageToSign: string;
+    try {
       const siweMessage = new SiweMessage({
         domain: window.location.host,
         address,
         statement: `Verify KELLY token ownership for Telegram user ${tg}`,
         uri: window.location.origin,
         version: "1",
-        chainId: 8453, // Base
+        chainId: 8453,
         nonce,
       });
+      messageToSign = siweMessage.prepareMessage();
+    } catch (err: any) {
+      setStatus("error");
+      setMessage("Failed to build sign-in message: " + toStr(err));
+      return;
+    }
 
-      const messageToSign = siweMessage.prepareMessage();
+    // Step 3: Sign message
+    let signature: string;
+    try {
+      signature = await signMessageAsync({ message: messageToSign });
+    } catch (err: any) {
+      setStatus("error");
+      const msg = toStr(err);
+      setMessage(isRejection(msg) ? "Signature cancelled. Please try again." : "Signing failed: " + msg);
+      return;
+    }
 
-      // 3. Sign message
-      const signature = await signMessageAsync({ message: messageToSign });
-
-      setStatus("verifying");
-
-      // 4. Send to server for verification
+    // Step 4: Verify with server
+    setStatus("verifying");
+    try {
       const verifyRes = await fetch("/api/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: messageToSign, signature }),
       });
 
-      const result = await verifyRes.json();
+      let result: any;
+      try {
+        result = await verifyRes.json();
+      } catch {
+        setStatus("error");
+        setMessage("Server returned an invalid response (HTTP " + verifyRes.status + ")");
+        return;
+      }
 
       if (verifyRes.ok && result.success) {
         setStatus("success");
@@ -68,20 +110,7 @@ function VerifyContent() {
       }
     } catch (err: any) {
       setStatus("error");
-      // wagmi v2 / viem errors use shortMessage, regular errors use message
-      const errMsg: string =
-        err?.shortMessage || err?.message || err?.name || String(err) || "Unknown error";
-      const lower = errMsg.toLowerCase();
-      if (
-        lower.includes("reject") ||
-        lower.includes("cancel") ||
-        lower.includes("denied") ||
-        lower.includes("user refused")
-      ) {
-        setMessage("Signature cancelled. Please try again.");
-      } else {
-        setMessage(errMsg);
-      }
+      setMessage("Network error: " + toStr(err));
     }
   }, [address, tg, chat, signMessageAsync]);
 

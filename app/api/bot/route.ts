@@ -52,10 +52,10 @@ async function handleMessage(message: any) {
     // Default response
     await sendMessage(
       chatId,
-      `👋 Hola! Soy el bot de verificación de $KELLY.\n\n` +
-        `Comandos:\n` +
-        `/start — Verificar tu wallet\n` +
-        `/status — Comprobar tu estado`
+      `👋 Hey! I'm the $KELLY Token Gate bot.\n\n` +
+        `Commands:\n` +
+        `/start — Verify your wallet\n` +
+        `/status — Check your verification status`
     );
   }
 }
@@ -65,16 +65,10 @@ async function handleStart(chatId: number, userId: string) {
 
   await sendMessage(
     chatId,
-    `🔐 <b>Verificación Token Gate — $KELLY</b>\n\n` +
-      `Para unirte al grupo necesitas tener mínimo <b>${MIN_BALANCE_DISPLAY} $KELLY</b> en Base.\n\n` +
-      `Haz click en el botón para conectar tu wallet y verificar tu saldo:`,
-    {
-      replyMarkup: {
-        inline_keyboard: [
-          [{ text: "🔗 Verificar mi wallet", url: verifyUrl }],
-        ],
-      },
-    }
+    `🅺 Welcome to the <b>$KELLY Token Gate!</b>\n\n` +
+      `To join the holders-only chat, verify you hold $KELLY tokens:\n\n` +
+      `👉 ${verifyUrl}\n\n` +
+      `Connect your wallet, sign a message, and if you hold $KELLY on Base, you'll get an invite link!`
   );
 }
 
@@ -84,7 +78,7 @@ async function handleStatus(chatId: number, userId: string) {
   if (!user) {
     await sendMessage(
       chatId,
-      `❌ No estás verificado aún.\n\nUsa /start para comenzar la verificación.`
+      `❌ You're not verified yet.\n\nUse /start to begin verification.`
     );
     return;
   }
@@ -96,20 +90,20 @@ async function handleStatus(chatId: number, userId: string) {
     if (sufficient) {
       await sendMessage(
         chatId,
-        `✅ <b>Estado: Verificado</b>\n\n` +
+        `✅ <b>Status: Verified</b>\n\n` +
           `Wallet: <code>${shortWallet}</code>\n` +
-          `Saldo: <b>${Number(formatted).toLocaleString()} $KELLY</b>\n` +
-          `Mínimo: ${MIN_BALANCE_DISPLAY} $KELLY\n\n` +
-          `Todo en orden! 🎉`
+          `Balance: <b>${Number(formatted).toLocaleString()} $KELLY</b>\n` +
+          `Minimum: ${MIN_BALANCE_DISPLAY} $KELLY\n\n` +
+          `You're all good! 🎉`
       );
     } else {
       await sendMessage(
         chatId,
-        `⚠️ <b>Atención: Saldo insuficiente</b>\n\n` +
+        `⚠️ <b>Warning: Insufficient balance</b>\n\n` +
           `Wallet: <code>${shortWallet}</code>\n` +
-          `Saldo: <b>${Number(formatted).toLocaleString()} $KELLY</b>\n` +
-          `Mínimo: ${MIN_BALANCE_DISPLAY} $KELLY\n\n` +
-          `Tu saldo ha bajado del mínimo. Podrías ser removido en la próxima revisión.`
+          `Balance: <b>${Number(formatted).toLocaleString()} $KELLY</b>\n` +
+          `Minimum: ${MIN_BALANCE_DISPLAY} $KELLY\n\n` +
+          `Your balance is below the minimum. You may be removed in the next recheck.`
       );
     }
   } catch (error) {
@@ -132,9 +126,9 @@ async function handleChatMember(chatMember: any) {
     await kickMember(userId);
     await sendMessage(
       userId,
-      `🚫 No estás verificado para este grupo.\n\n` +
-        `Necesitas tener mínimo ${MIN_BALANCE_DISPLAY} $KELLY.\n` +
-        `Usa /start para verificar tu wallet.`
+      `🚫 You're not verified for this group.\n\n` +
+        `You need at least ${MIN_BALANCE_DISPLAY} $KELLY on Base.\n` +
+        `Use /start to verify your wallet.`
     );
   }
 }

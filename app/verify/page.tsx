@@ -158,17 +158,25 @@ function VerifyContent() {
 
         {status === "error" && (
           <div style={{ ...styles.alert, borderColor: "#ef4444", background: "#450a0a" }}>
-            <p style={{ fontSize: "1.3rem", margin: "0 0 0.75rem", fontWeight: 700 }}>Insufficient balance</p>
-            {balance && (
-              <p style={{ margin: "0 0 0.5rem", color: "#fca5a5", fontSize: "1.05rem" }}>
-                Your balance: ~{Math.floor(Number(balance)).toLocaleString()} $KELLY
-              </p>
-            )}
-            <p style={{ margin: "0 0 0.25rem", color: "#fca5a5", fontSize: "0.95rem" }}>
-              You need at least <strong>50,000,000 $KELLY</strong> to join.
-            </p>
-            {!balance && message && (
-              <p style={{ margin: "0.5rem 0 0", color: "#f87171", fontSize: "0.85rem" }}>{message}</p>
+            {balance ? (
+              <>
+                <p style={{ fontSize: "1.3rem", margin: "0 0 0.75rem", fontWeight: 700, color: "#fca5a5" }}>
+                  Insufficient $KELLY balance
+                </p>
+                <p style={{ margin: "0 0 0.5rem", color: "#f87171", fontSize: "1.1rem" }}>
+                  Your balance: <strong>~{Math.floor(Number(balance)).toLocaleString()} $KELLY</strong>
+                </p>
+                <p style={{ margin: "0", color: "#fca5a5", fontSize: "0.95rem" }}>
+                  You need at least <strong>50,000,000 $KELLY</strong> to join.
+                </p>
+              </>
+            ) : (
+              <>
+                <p style={{ fontSize: "1.2rem", margin: "0 0 0.5rem", fontWeight: 700, color: "#fca5a5" }}>
+                  Verification Failed
+                </p>
+                <p style={{ margin: "0", color: "#f87171", fontSize: "0.9rem" }}>{message}</p>
+              </>
             )}
             <button
               style={{ ...styles.verifyButton, marginTop: "1.25rem" }}

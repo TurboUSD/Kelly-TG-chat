@@ -143,10 +143,10 @@ function VerifyContent() {
         <h1 style={styles.title}>$KELLY Token Gate</h1>
         <p style={styles.subtitle}>
           Connect your wallet and verify you hold at least 50M $KELLY
-          on Base to join the chat.{" "}
-          <span style={{ color: "#666", fontSize: "0.85rem" }}>
-            No funds move — signature only.
-          </span>
+          on Base to join the chat.
+        </p>
+        <p style={{ color: "#555", fontSize: "0.78rem", margin: "-0.75rem 0 1.5rem", letterSpacing: "0.03em" }}>
+          🔒 No funds move — signature only
         </p>
 
         <div style={styles.connectWrapper}>

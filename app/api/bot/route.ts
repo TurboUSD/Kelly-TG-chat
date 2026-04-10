@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { config, MIN_BALANCE_DISPLAY } from "@/lib/config";
-import { isVerified, getVerifiedUser } from "@/lib/kv-store";
+import { isVerified, getVerifiedUser, saveVerifiedUser } from "@/lib/kv-store";
 import { sendMessage, sendInviteToUser, kickMember } from "@/lib/telegram";
 import { checkBalance } from "@/lib/token";
 
@@ -117,6 +117,16 @@ async function handleChatMember(chatMember: any) {
 
   // Only care about users joining the group
   if (!userId || newStatus !== "member") return;
+
+  // If user joined via an invite link, auto-whitelist them
+  if (chatMember.invite_link) {
+    const alreadyVerified = await isVerified(userId);
+    if (!alreadyVerified) {
+      await saveVerifiedUser(userId, "invited-via-link");
+      console.log(`Auto-whitelisted user ${userId} (joined via invite link)`);
+    }
+    return; // Don't kick — they came through an invite link
+  }
 
   // Check if this user is verified
   const verified = await isVerified(userId);
